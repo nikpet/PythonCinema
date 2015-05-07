@@ -22,3 +22,6 @@ class Database:
 
     def make_reservation(self, movie_name, number_of_tickets):
         pass
+
+    def cancel_reservation(self, name):
+        pass
