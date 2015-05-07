@@ -1,18 +1,13 @@
+import sqlite3
+
+
 class Database:
-    def __init__(self):
+    def __init__(self, database):
+        self.db = sqlite3.connect(database)
+        self.cursor = self.db.cursor()
         self.__init_movies()
         self.__init_projections()
         self.__init_reservations()
-        pass
-
-    def __init_movies(self):
-        pass
-
-    def __init_projections(self):
-        pass
-
-    def __init_reservations(self):
-        pass
 
     def show_movies(self):
         pass
