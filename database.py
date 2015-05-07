@@ -11,7 +11,13 @@ class Database:
         self.__init_reservations()
 
     def show_movies(self):
-        pass
+        query = """
+            SELECT name
+            FROM movies
+            ORDER BY rating DESC
+        """
+        return self.cursor.execute(query).fetchall()
+
 
     def show_movie_projection(self, movie_id, data=None):
         pass
