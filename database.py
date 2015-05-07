@@ -19,7 +19,18 @@ class Database:
         return self.cursor.execute(query).fetchall()
 
     def show_movie_projection(self, movie_id, date=None):
-        pass
+        query = """
+            SELECT type, date, time
+            FROM projections
+            WHERE movie_id = ?
+        """
+        if date is not None:
+            query += """
+                AND date = ?
+            """
+            return self.cursor.execute(query, movie_id, date).fetchall()
+        else:
+            return self.cursor.execute(query, movie_id).fetchall()
 
     def make_reservation(self, movie_name, number_of_tickets):
         pass
