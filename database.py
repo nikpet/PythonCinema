@@ -12,7 +12,7 @@ class Database:
 
     def show_movies(self):
         query = """
-            SELECT name
+            SELECT id, name
             FROM movies
             ORDER BY rating DESC
         """
