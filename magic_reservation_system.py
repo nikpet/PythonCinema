@@ -7,6 +7,8 @@ class CLI:
         self.username = ""
         self.tickets = 0
         self.available = {}
+        self.seats = []
+        self.reservations = []
 
 
     def step_one(self):
@@ -19,17 +21,38 @@ class CLI:
         self.show_movie_projections(movie)
 
     def step_three(self):
+        to_str = ""
         projection = input("Choose a projection>")
         while False:
             if self.available[projection] > self.tickets:
                 break
             projection = input("Choose a projection>")
-        self.cinema.get_available_spots(projection)
+        self.seats = self.cinema.get_available_spots(projection)
+        print(self.seats)
 
+    def is_taken(self, row, col):
+        if self.seats[row][col] != "X":
+            return False
+        else:
+            return True
 
     def step_four(self):
-        pass
+        for ticket in range(1, self.tickets + 1):
+            while True:
+                seat = input("Choose seat {}>".format(ticket))
+                row_in_range = seat[0] in range(1, 10)
+                col_in_range = seat[1] in range(1, 10)
+                if row_in_range and col_in_range and not self.is_taken(seat[0], seat[1]):
+                    self.reservations.append(seat)
+                    break
+                elif self.is_taken(seat[0], seat[1]):
+                    print("Out of range")
+                else:
+                    print("Seat is already taken")
 
+    def step_five(self):
+        print("This is your reservation:")
+        print("Movie: Wreck-It Ralph (7.8)")
 
 
 
