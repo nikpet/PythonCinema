@@ -49,6 +49,19 @@ class Database:
         else:
             return False
 
+    def get_available_spots(self, projection_id):
+        query = """
+            SELECT row, col
+            FROM Reservations
+            WHERE projection_id = ?
+        """
+        row = ['.'] * 10
+        hall = [row.copy() for x in range(10)]
+        spots = self.cursor.execute(query, (projection_id, )).fetchall()
+        for spot in spots:
+            hall[spot['row'] - 1][spot['col'] - 1] = 'X'
+        return hall
+
     def make_reservation(self, user_name, projection_id, row, col):
         query = """
             INSERT INTO Reservations
@@ -64,9 +77,10 @@ class Database:
 
 def main():
     cinema = Database("cinema.db")
-    print(cinema.check_availability(1, 2, 1))
-    for proj in cinema.show_movie_projection(1, '2014-04-01'):
-        print("[{}] - {} {} ({}) - {} spots available".format(proj[0], proj[1], proj[2], proj[3], proj[4]))
+    # print(cinema.check_availability(1, 2, 1))
+    # for proj in cinema.show_movie_projection(1, '2014-04-01'):
+    #     print("[{}] - {} {} ({}) - {} spots available".format(proj[0], proj[1], proj[2], proj[3], proj[4]))
+    print(cinema.get_available_spots(3))
 
 if __name__ == '__main__':
     main()
