@@ -37,8 +37,6 @@ class Database:
 
 def main():
     cinema = Database("cinema.db")
-    for movie in cinema.show_movies():
-        print("[{}] - {} ({})".format(movie[0], movie[1], movie[2]))
 
 
 if __name__ == '__main__':
