@@ -50,10 +50,11 @@ class Database:
             WHERE projection_id = ?
         """
         row = ['.'] * 10
-        hall = [row.copy() for x in range(10)]
+        hall = [[str(x)] + row.copy() for x in range(1, 11)]
+        hall.insert(0, [' '] + [str(x) for x in range(1, 11)])
         spots = self.cursor.execute(query, (projection_id, )).fetchall()
-        for spot in spots:
-            hall[spot['row'] - 1][spot['col'] - 1] = 'X'
+        for index, spot in enumerate(spots):
+            hall[spot['row']][spot['col']] = 'X'
         return hall
 
     def make_reservations(self, user_name, projection_id, spots):
@@ -82,8 +83,6 @@ def main():
     # for proj in cinema.show_movie_projection(1, '2014-04-01'):
     #     print("[{}] - {} {} ({}) - {} spots available".format(proj[0], proj[1], proj[2], proj[3], proj[4]))
     cinema.make_reservations('nn', 3, [(2, 1), (2, 2)])
-    print(cinema.get_available_spots(3))
-    cinema.cancel_reservation('nn')
     print(cinema.get_available_spots(3))
 
 if __name__ == '__main__':
