@@ -19,12 +19,10 @@ class CLI:
     def step_one(self):
         self.username = input("Choose name>")
         self.tickets = input("Choose number of tickets>")
-        print("Current movies:")
         self.show_movies()
 
     def step_two(self):
         movie = input("Choose a movie>")
-        print("Projections for movie 'Wreck-It Ralph':")
         self.show_movie_projections(movie)
 
     def step_three(self):
@@ -32,6 +30,7 @@ class CLI:
             projection = input("Choose a projection>")
             if self.available[projection] > self.tickets:
                 break
+        self.cinema.get_available_spots(projection)
 
     def step_four(self):
         pass
@@ -40,10 +39,13 @@ class CLI:
 
 
     def show_movies(self):
+        print("Current movies:")
         for movie in self.cinema.show_movies():
             print("[{}] - {} ({})".format(movie[0], movie[1], movie[2]))
 
+
     def show_movie_projections(self, movie_id, date=None):
+        print("Projections for movie '{}':".format())
         if date is not None:
             for proj in self.cinema.show_movie_projection(movie_id, date):
                 self.available[proj[0]] = proj[4]
