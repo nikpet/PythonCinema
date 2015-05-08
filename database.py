@@ -49,7 +49,7 @@ class Database:
         else:
             return False
 
-    def make_reservation(self, movie_name, number_of_tickets):
+    def make_reservation(self, projection_id, spots):
         pass
 
     def cancel_reservation(self, name):
