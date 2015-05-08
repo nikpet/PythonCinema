@@ -49,8 +49,14 @@ class Database:
         else:
             return False
 
-    def make_reservation(self, movie_name, number_of_tickets):
-        pass
+    def make_reservation(self, user_name, projection_id, row, col):
+        query = """
+            INSERT INTO Reservations
+            VALUES (?, ?, ?, ?)
+        """
+        self.cursor.execute(query)
+        self.db.commit()
+
 
     def cancel_reservation(self, name):
         pass
