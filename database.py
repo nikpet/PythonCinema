@@ -59,8 +59,12 @@ class Database:
         self.cursor.executemany(query, reservations)
         # self.db.commit()
 
-    def cancel_reservation(self, name):
-        pass
+    def cancel_reservation(self, user_name):
+        query = """
+            DELETE FROM Reservations
+            WHERE username = ?
+        """
+        self.cursor.execute(query, (user_name, ))
 
 
 def main():
@@ -69,6 +73,8 @@ def main():
     # for proj in cinema.show_movie_projection(1, '2014-04-01'):
     #     print("[{}] - {} {} ({}) - {} spots available".format(proj[0], proj[1], proj[2], proj[3], proj[4]))
     cinema.make_reservations('nn', 3, [(2, 1), (2, 2)])
+    print(cinema.get_available_spots(3))
+    cinema.cancel_reservation('nn')
     print(cinema.get_available_spots(3))
 
 if __name__ == '__main__':
