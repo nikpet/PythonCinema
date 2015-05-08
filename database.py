@@ -15,6 +15,14 @@ class Database:
         """
         return self.cursor.execute(query).fetchall()
 
+    def get_movie(self, movie_id):
+        query = """
+            SELECT movie_name
+            FROM Movies
+            WHERE movie_id = ?
+        """
+        return self.cursor.execute(query, (movie_id, )).fetchone()
+
     def show_movie_projection(self, movie_id, date=None):
         query = """
             SELECT p.projection_id, date, time, type, 100 - COUNT(row) AS available_spots
@@ -69,6 +77,7 @@ class Database:
 
 def main():
     cinema = Database("cinema.db")
+    print(cinema.get_movie(1)['movie_name'])
     # print(cinema.check_availability(1, 2, 1))
     # for proj in cinema.show_movie_projection(1, '2014-04-01'):
     #     print("[{}] - {} {} ({}) - {} spots available".format(proj[0], proj[1], proj[2], proj[3], proj[4]))
