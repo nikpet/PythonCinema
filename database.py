@@ -35,15 +35,30 @@ class Database:
             query = query.format('')
             return self.cursor.execute(query, (movie_id,)).fetchall()
 
+    def check_availability(self, projection_id, row, col):
+        query = """
+            SELECT 1
+            FROM Reservations
+            WHERE projection_id = ? AND row = ? AND col = ?
+        """
+        availability = self.cursor.execute(query,
+                                           (projection_id, row, col)
+                                           ).fetchone()
+        if availability is None:
+            return True
+        else:
+            return False
+
     def make_reservation(self, movie_name, number_of_tickets):
         pass
 
     def cancel_reservation(self, name):
         pass
 
+
 def main():
     cinema = Database("cinema.db")
-    print(cinema.show_movie_projection(1, '2014-04-01'))
+    print(cinema.check_availability(1, 2, 1))
 
 
 if __name__ == '__main__':
