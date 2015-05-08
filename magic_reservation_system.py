@@ -26,6 +26,7 @@ class CLI:
             projection = input("Choose a projection>")
         self.cinema.get_available_spots(projection)
 
+
     def step_four(self):
         pass
 
