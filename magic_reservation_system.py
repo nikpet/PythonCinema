@@ -1,5 +1,6 @@
 from database import Database
 import sys
+import json
 
 class CLI:
     def __init__(self):
@@ -28,7 +29,10 @@ class CLI:
                 break
             projection = input("Choose a projection>")
         self.seats = self.cinema.get_available_spots(projection)
-        print(self.seats)
+        for number in range(0, 11):
+            to_str += " ".join([seat for seat in self.seats[number]])
+            to_str += "\n"
+        print(to_str)
 
     def is_taken(self, row, col):
         if self.seats[row][col] != "X":
@@ -37,18 +41,24 @@ class CLI:
             return True
 
     def step_four(self):
-        for ticket in range(1, self.tickets + 1):
+        for ticket in range(1, int(self.tickets) + 1):
             while True:
                 seat = input("Choose seat {}>".format(ticket))
-                row_in_range = seat[0] in range(1, 10)
-                col_in_range = seat[1] in range(1, 10)
-                if row_in_range and col_in_range and not self.is_taken(seat[0], seat[1]):
-                    self.reservations.append(seat)
-                    break
-                elif self.is_taken(seat[0], seat[1]):
-                    print("Out of range")
-                else:
-                    print("Seat is already taken")
+                try:
+                    row = int(seat[1])
+                    col = int(seat[3])
+                    row_in_range = row in range(1, 10)
+                    col_in_range = col in range(1, 10)
+                    if row_in_range and col_in_range and not self.is_taken(row, col):
+                        self.seats[row][col] = "X"
+                        self.reservations.append((row, col))
+                        break
+                    elif not self.is_taken(row, col):
+                        print("Out of range")
+                    else:
+                        print("Seat is already taken")
+                except:
+                    print("Invalid input")
 
     def step_five(self):
         print("This is your reservation:")
@@ -63,7 +73,7 @@ class CLI:
 
 
     def show_movie_projections(self, movie_id, date=None):
-        print("Projections for movie '{}':".format(self.cinema.get_movie(movie_id)))
+        print("Projections for movie '{}':".format(self.cinema.get_movie(movie_id)[0]))
         if date is not None:
             for proj in self.cinema.show_movie_projection(movie_id, date):
                 self.available[proj[0]] = proj[4]
@@ -82,6 +92,7 @@ class CLI:
         self.step_one()
         self.step_two()
         self.step_three()
+        self.step_four()
 
 
 def main():
