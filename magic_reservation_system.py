@@ -6,15 +6,8 @@ class CLI:
         self.cinema = Database("cinema.db")
         self.username = ""
         self.tickets = 0
-        self.options = {}
         self.available = {}
 
-    STEPS = [
-        "STEP 1",
-        "STEP 2",
-        "STEP 3",
-        "STEP 3"
-    ]
 
     def step_one(self):
         self.username = input("Choose name>")
@@ -31,6 +24,7 @@ class CLI:
             if self.available[projection] > self.tickets:
                 break
             projection = input("Choose a projection>")
+        self.cinema.get_available_spots(projection)
 
     def step_four(self):
         pass
