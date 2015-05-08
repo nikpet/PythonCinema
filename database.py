@@ -35,20 +35,6 @@ class Database:
             query = query.format('')
             return self.cursor.execute(query, (movie_id,)).fetchall()
 
-    def check_availability(self, projection_id, row, col):
-        query = """
-            SELECT 1
-            FROM Reservations
-            WHERE projection_id = ? AND row = ? AND col = ?
-        """
-        availability = self.cursor.execute(query,
-                                           (projection_id, row, col)
-                                           ).fetchone()
-        if availability is None:
-            return True
-        else:
-            return False
-
     def get_available_spots(self, projection_id):
         query = """
             SELECT row, col
