@@ -6,14 +6,11 @@ class Database:
         self.db = sqlite3.connect(database)
         self.db.row_factory = sqlite3.Row
         self.cursor = self.db.cursor()
-        self.__init_movies()
-        self.__init_projections()
-        self.__init_reservations()
 
     def show_movies(self):
         query = """
-            SELECT id, name
-            FROM movies
+            SELECT movie_id, movie_name, rating
+            FROM Movies
             ORDER BY rating DESC
         """
         return self.cursor.execute(query).fetchall()
@@ -37,3 +34,12 @@ class Database:
 
     def cancel_reservation(self, name):
         pass
+
+def main():
+    cinema = Database("cinema.db")
+    for movie in cinema.show_movies():
+        print("[{}] - {} ({})".format(movie[0], movie[1], movie[2]))
+
+
+if __name__ == '__main__':
+    main()

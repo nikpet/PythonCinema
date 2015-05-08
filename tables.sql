@@ -1,13 +1,13 @@
-DROP TABLE IF EXISTS Movie;
+DROP TABLE IF EXISTS Movies;
 DROP TABLE IF EXISTS Projections;
 DROP TABLE IF EXISTS Reservations;
 pragma foreign_keys = on;
 
 
-CREATE TABLE Movie(
+CREATE TABLE Movies(
   movie_id INTEGER PRIMARY KEY,
   movie_name TEXT,
-  movie_rating INTEGER
+  rating INTEGER
 );
 
 CREATE TABLE Projections(
@@ -16,7 +16,7 @@ CREATE TABLE Projections(
   type TEXT,
   data DATE,
   time TEXT,
-  FOREIGN KEY(movie_id) REFERENCES Movie(movie_id)
+  FOREIGN KEY(movie_id) REFERENCES Movies(movie_id)
 );
 
 CREATE TABLE Reservations(
@@ -28,9 +28,9 @@ CREATE TABLE Reservations(
   FOREIGN KEY(projections_id) REFERENCES Projections(projections_id)
 );
 
-INSERT INTO Movie(movie_name, movie_rating) VALUES("The Hunger Games: Catching Fire", 7.9);
-INSERT INTO Movie(movie_name, movie_rating) VALUES("Wreck-It Ralph", 7.8);
-INSERT INTO Movie(movie_name, movie_rating) VALUES("Her", 8.3);
+INSERT INTO Movies(movie_name, rating) VALUES("The Hunger Games: Catching Fire", 7.9);
+INSERT INTO Movies(movie_name, rating) VALUES("Wreck-It Ralph", 7.8);
+INSERT INTO Movies(movie_name, rating) VALUES("Her", 8.3);
 
 INSERT INTO Projections(movie_id, type, data, time) VALUES(1, "3D", 2014-04-01, "19:10");
 INSERT INTO Projections(movie_id, type, data, time) VALUES(1, "2D", 2014-04-01, "19:00");
