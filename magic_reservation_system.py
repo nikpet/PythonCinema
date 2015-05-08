@@ -6,15 +6,8 @@ class CLI:
         self.cinema = Database("cinema.db")
         self.username = ""
         self.tickets = 0
-        self.options = {}
         self.available = {}
 
-    STEPS = [
-        "STEP 1",
-        "STEP 2",
-        "STEP 3",
-        "STEP 3"
-    ]
 
     def step_one(self):
         self.username = input("Choose name>")
@@ -26,11 +19,13 @@ class CLI:
         self.show_movie_projections(movie)
 
     def step_three(self):
+        projection = input("Choose a projection>")
         while False:
-            projection = input("Choose a projection>")
             if self.available[projection] > self.tickets:
                 break
+            projection = input("Choose a projection>")
         self.cinema.get_available_spots(projection)
+
 
     def step_four(self):
         pass
@@ -45,7 +40,7 @@ class CLI:
 
 
     def show_movie_projections(self, movie_id, date=None):
-        print("Projections for movie '{}':".format())
+        print("Projections for movie '{}':".format(self.cinema.get_movie(movie_id)))
         if date is not None:
             for proj in self.cinema.show_movie_projection(movie_id, date):
                 self.available[proj[0]] = proj[4]
@@ -73,4 +68,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
