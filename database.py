@@ -17,17 +17,23 @@ class Database:
 
     def show_movie_projection(self, movie_id, date=None):
         query = """
-            SELECT type, date, time
-            FROM projections
+            SELECT type, date, time, 100 - COUNT(row) AS available_spots
+            FROM Projections AS p
+            LEFT JOIN Reservations AS R
+            ON p.projection_id = r.projection_id
             WHERE movie_id = ?
+            {}
+            GROUP BY type, time, date
+            ORDER BY date, time ASC
         """
         if date is not None:
-            query += """
+            query = query.format("""
                 AND date = ?
-            """
-            return self.cursor.execute(query, movie_id, date).fetchall()
+            """)
+            return self.cursor.execute(query, (movie_id, date)).fetchall()
         else:
-            return self.cursor.execute(query, movie_id).fetchall()
+            query = query.format('')
+            return self.cursor.execute(query, (movie_id,)).fetchall()
 
     def make_reservation(self, movie_name, number_of_tickets):
         pass
@@ -37,6 +43,7 @@ class Database:
 
 def main():
     cinema = Database("cinema.db")
+    print(cinema.show_movie_projection(1, '2014-04-01'))
 
 
 if __name__ == '__main__':
