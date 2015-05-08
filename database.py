@@ -48,14 +48,16 @@ class Database:
             hall[spot['row'] - 1][spot['col'] - 1] = 'X'
         return hall
 
-    def make_reservation(self, user_name, projection_id, row, col):
+    def make_reservations(self, user_name, projection_id, spots):
         query = """
-            INSERT INTO Reservations
+            INSERT INTO Reservations (username, projection_id, row, col)
             VALUES (?, ?, ?, ?)
         """
-        self.cursor.execute(query)
-        self.db.commit()
-
+        reservations = []
+        for spot in spots:
+            reservations.append((user_name, projection_id, spot[0], spot[1]))
+        self.cursor.executemany(query, reservations)
+        # self.db.commit()
 
     def cancel_reservation(self, name):
         pass
@@ -66,6 +68,7 @@ def main():
     # print(cinema.check_availability(1, 2, 1))
     # for proj in cinema.show_movie_projection(1, '2014-04-01'):
     #     print("[{}] - {} {} ({}) - {} spots available".format(proj[0], proj[1], proj[2], proj[3], proj[4]))
+    cinema.make_reservations('nn', 3, [(2, 1), (2, 2)])
     print(cinema.get_available_spots(3))
 
 if __name__ == '__main__':
