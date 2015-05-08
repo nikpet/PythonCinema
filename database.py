@@ -17,7 +17,7 @@ class Database:
 
     def show_movie_projection(self, movie_id, date=None):
         query = """
-            SELECT type, date, time, 100 - COUNT(row) AS available_spots
+            SELECT p.projection_id, date, time, type, 100 - COUNT(row) AS available_spots
             FROM Projections AS p
             LEFT JOIN Reservations AS R
             ON p.projection_id = r.projection_id
@@ -59,7 +59,8 @@ class Database:
 def main():
     cinema = Database("cinema.db")
     print(cinema.check_availability(1, 2, 1))
-
+    for proj in cinema.show_movie_projection(1, '2014-04-01'):
+        print("[{}] - {} {} ({}) - {} spots available".format(proj[0], proj[1], proj[2], proj[3], proj[4]))
 
 if __name__ == '__main__':
     main()
