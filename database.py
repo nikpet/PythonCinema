@@ -17,7 +17,7 @@ class Database:
 
     def get_movie(self, movie_id):
         query = """
-            SELECT movie_name
+            SELECT movie_name, rating
             FROM Movies
             WHERE movie_id = ?
         """
