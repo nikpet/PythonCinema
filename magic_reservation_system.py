@@ -157,7 +157,7 @@ class CLI:
     def start(self):
         while True:
             var_input = input("comand>")
-            #try:
+            try:
             if ' ' not in var_input:
                 function = "self.{}()".format(var_input)
                 eval(function)
@@ -169,8 +169,8 @@ class CLI:
                 function = "self.{}('{}')".format(inputs[0], inputs[1])
                 eval(function)
 
-            #except:
-            #    print("Wrong spell!")
+            except:
+                print("Wrong spell!")
 
     def make_reservation(self):
         self._choose_name()
