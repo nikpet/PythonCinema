@@ -23,6 +23,14 @@ class Database:
         """
         return self.cursor.execute(query, (movie_id, )).fetchone()
 
+    def get_projection(self, projection_id):
+        query = """
+            SELECT date, time, type
+            FROM Projections
+            WHERE projection_id = ?
+        """
+        return self.cursor.execute(query, (projection_id, )).fetchone()
+
     def show_movie_projection(self, movie_id, date=None):
         query = """
             SELECT p.projection_id, date, time, type, 100 - COUNT(row) AS available_spots
@@ -66,7 +74,7 @@ class Database:
         for spot in spots:
             reservations.append((user_name, projection_id, spot[0], spot[1]))
         self.cursor.executemany(query, reservations)
-        # self.db.commit()
+        self.db.commit()
 
     def cancel_reservation(self, user_name):
         query = """
@@ -74,6 +82,7 @@ class Database:
             WHERE username = ?
         """
         self.cursor.execute(query, (user_name, ))
+        self.db.commit()
 
 
 def main():
